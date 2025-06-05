@@ -18,7 +18,9 @@ def index(request):
         pub_date__lte=timezone.now(),
         is_published=True,
         category__is_published=True
-    ).order_by('-pub_date').select_related('author', 'category').prefetch_related('comments')
+    ).order_by('-pub_date')\
+     .select_related('author', 'category')\
+     .prefetch_related('comments')
 
     # Добавляем аннотацию с количеством комментариев
     post_list = post_list.annotate(comment_count=Count('comments'))
@@ -34,7 +36,8 @@ def index(request):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     is_owner = request.user.is_authenticated and request.user == post.author
-    if (post.pub_date > timezone.now() or not post.is_published or not post.category.is_published) and not is_owner:
+    if (post.pub_date > timezone.now() or not post.is_published or
+            not post.category.is_published) and not is_owner:
         raise Http404("Публикация недоступна.")
     form = CommentForm()
     comments = post.comments.select_related('author').all()
@@ -166,7 +169,8 @@ def create_post(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect(reverse('blog:profile', kwargs={'username': request.user.username}))
+            return redirect(reverse('blog:profile',
+                        kwargs={'username': request.user.username}))
     else:
         form = PostCreateForm()
     return render(request, 'blog/create.html', {'form': form})
@@ -247,7 +251,8 @@ def delete_comment(request, post_id, comment_id):
 
     if request.method == 'POST':
         comment.delete()
-        return redirect('blog:post_detail', post_id=post.id)
+        return redirect('blog:post_detail',
+                        post_id=post.id)
 
     return render(request, 'blog/comment.html', {
         'form': None,
@@ -265,7 +270,8 @@ def delete_post(request, post_id):
 
     if request.method == 'POST':
         post.delete()
-        return redirect('blog:profile', username=request.user.username)
+        return redirect('blog:profile',
+                        username=request.user.username)
 
     comments = post.comments.select_related('author').all()
 

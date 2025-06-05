@@ -15,6 +15,7 @@ urlpatterns = [
     path('auth/registration/', RegisterUpView.as_view(), name='registration'),
 ]
 
+
 def csrf_failure(request, reason=''):
     return render(request, 'pages/403csrf.html', status=403)
 
@@ -33,5 +34,7 @@ handler403 = 'blogicum.urls.csrf_failure'
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )

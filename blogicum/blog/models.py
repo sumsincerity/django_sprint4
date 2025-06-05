@@ -103,4 +103,6 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Комментарий от {self.author} к посту {self.post}"
+        return (
+            f"Комментарий от {self.author} к посту {self.post}"
+        )
