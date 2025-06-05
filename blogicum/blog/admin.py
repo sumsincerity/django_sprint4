@@ -6,6 +6,7 @@ class PostInline(admin.StackedInline):
     model = Post
     extra = 0
 
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     inlines = (

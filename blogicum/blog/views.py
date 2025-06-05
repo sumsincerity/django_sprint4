@@ -41,6 +41,7 @@ def post_detail(request, post_id):
     context = {'post': post, 'form': form, 'comments': comments}
     return render(request, 'blog/detail.html', context)
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -48,6 +49,7 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Введите ваш комментарий...'})
         }
+
 
 def category_posts(request, category_slug):
     category = get_object_or_404(
@@ -71,6 +73,7 @@ def category_posts(request, category_slug):
         'page_obj': page_obj,
     }
     return render(request, 'blog/category.html', context)
+
 
 def profile(request, username):
     user = get_object_or_404(User, username=username)
@@ -97,6 +100,7 @@ def profile(request, username):
         'is_owner': is_owner,
     }
     return render(request, 'blog/profile.html', context)
+
 
 @login_required
 def create_post(request):
@@ -126,10 +130,12 @@ def edit_post(request, post_id):
         form = PostCreateForm(instance=post)
     return render(request, 'blog/create.html', {'form': form, 'is_edit': True, 'post': post})
 
+
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
+
 
 @login_required
 def edit_profile(request, username):
@@ -145,10 +151,12 @@ def edit_profile(request, username):
         form = ProfileEditForm(instance=user)
     return render(request, 'blog/user.html', {'form': form})
 
+
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'image', 'category', 'location', 'pub_date']
+
 
 @login_required
 def create_post(request):
