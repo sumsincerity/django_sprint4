@@ -36,13 +36,15 @@ def index(request):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     is_owner = request.user.is_authenticated and request.user == post.author
-    if (post.pub_date > timezone.now() or not post.is_published or
-            not post.category.is_published) and not is_owner:
+    if (post.pub_date > timezone.now() or not post.is_published
+            or not post.category.is_published) and not is_owner:
         raise Http404("Публикация недоступна.")
     form = CommentForm()
     comments = post.comments.select_related('author').all()
     context = {'post': post, 'form': form, 'comments': comments}
-    return render(request, 'blog/detail.html', context)
+    return render(
+        request, 'blog/detail.html', context
+    )
 
 
 class CommentForm(forms.ModelForm):
@@ -102,7 +104,9 @@ def profile(request, username):
         'page_obj': page_obj,
         'is_owner': is_owner,
     }
-    return render(request, 'blog/profile.html', context)
+    return render(
+        request, 'blog/profile.html', context
+    )
 
 
 @login_required
@@ -270,14 +274,18 @@ def delete_post(request, post_id):
 
     if request.method == 'POST':
         post.delete()
-        return redirect('blog:profile',
-                        username=request.user.username)
+        return redirect(
+            'blog:profile',
+            username=request.user.username
+        )
 
     comments = post.comments.select_related('author').all()
 
-    return render(request, 'blog/create.html', {
-        'post': post,
-        'is_delete': True,
-        'form': CommentForm(),
-        'comments': comments
-    })
+    return render(
+        request, 'blog/create.html', {
+            'post': post,
+            'is_delete': True,
+            'form': CommentForm(),
+            'comments': comments
+        }
+    )
