@@ -52,7 +52,8 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Введите ваш комментарий...'})
+            'text': forms.Textarea(attrs={'rows': 3,
+                                          'placeholder': 'Введите ваш комментарий...'})
         }
 
 
@@ -135,7 +136,8 @@ def edit_post(request, post_id):
             return redirect('blog:post_detail', post_id=post.id)
     else:
         form = PostCreateForm(instance=post)
-    return render(request, 'blog/create.html', {'form': form, 'is_edit': True, 'post': post})
+    return render(request, 'blog/create.html',
+                  {'form': form, 'is_edit': True, 'post': post})
 
 
 class ProfileEditForm(forms.ModelForm):
@@ -174,7 +176,7 @@ def create_post(request):
             post.author = request.user
             post.save()
             return redirect(reverse('blog:profile',
-                        kwargs={'username': request.user.username}))
+                                    kwargs={'username': request.user.username}))
     else:
         form = PostCreateForm()
     return render(request, 'blog/create.html', {'form': form})
@@ -192,7 +194,8 @@ def edit_post(request, post_id):
             return redirect('blog:post_detail', post_id=post.id)
     else:
         form = PostCreateForm(instance=post)
-    return render(request, 'blog/create.html', {'form': form, 'is_edit': True, 'post': post})
+    return render(request, 'blog/create.html',
+                  {'form': form, 'is_edit': True, 'post': post})
 
 
 class CommentForm(forms.ModelForm):
@@ -200,7 +203,8 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Введите ваш комментарий...'})
+            'text': forms.Textarea(attrs={'rows': 3,
+                                          'placeholder': 'Введите ваш комментарий...'})
         }
 
 
