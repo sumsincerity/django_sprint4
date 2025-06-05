@@ -52,8 +52,12 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'rows': 3,
-                                          'placeholder': 'Введите ваш комментарий...'})
+            'text': forms.Textarea(
+                attrs={
+                    'rows': 3,
+                    'placeholder': 'Введите ваш комментарий...'
+                }
+            )
         }
 
 
@@ -175,8 +179,9 @@ def create_post(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect(reverse('blog:profile',
-                                    kwargs={'username': request.user.username}))
+            return redirect(reverse(
+                'blog:profile',
+                kwargs={'username': request.user.username}))
     else:
         form = PostCreateForm()
     return render(request, 'blog/create.html', {'form': form})
@@ -203,8 +208,12 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'rows': 3,
-                                          'placeholder': 'Введите ваш комментарий...'})
+            'text': forms.Textarea(
+                attrs={
+                    'rows': 3,
+                    'placeholder': 'Введите ваш комментарий...'
+                }
+            )
         }
 
 
